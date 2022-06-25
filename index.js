@@ -25,29 +25,27 @@ function showContents(contents) {
     });
 }
 
-// Make http:get to https://goquotes-api.herokuapp.com/api/v1/random?count=10
-$.get(
-    "https://goquotes-api.herokuapp.com/api/v1/random?count=20",
-    function ({ quotes }) {
-        quotes.map((quote) => {
-            const content = $(`
+$.get("https://quotable.io/quotes?page=1", function (response) {
+    const quotes = response.results;
+
+    quotes.map((quote) => {
+        const content = $(`
                 <div class="content">
                     <div class="content-title">
-                        <p>${quote.text}</p>
+                        <p>${quote.content}</p>
                     </div>
                     <div class="content-text">
                         <p>${quote.author}</p>
                     </div>
                 </div>
             `);
-            list.append(content);
-        });
+        list.append(content);
+    });
 
-        const contents = $(".content");
+    const contents = $(".content");
 
-        showContents(contents);
+    showContents(contents);
 
-        // Add scroll event to the window
-        $(window).on("scroll", showContents.bind(null, contents));
-    }
-);
+    // Add scroll event to the window
+    $(window).on("scroll", showContents.bind(null, contents));
+});
